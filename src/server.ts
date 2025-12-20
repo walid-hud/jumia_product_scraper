@@ -1,7 +1,5 @@
-import express ,{ type Express}from "express"
+import express  ,{ type Express , static as _static}from "express"
 const server : Express = express()
-server.get("/" , (req , res)=>{
-    res.end("test")
-})
-
+import {join} from "path"
+server.use(_static(join(process.cwd() , "views")))
 export default server
