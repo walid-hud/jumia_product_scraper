@@ -97,7 +97,7 @@ async function new_identity(password: string) {
   await sleep(5000);
 }
 
-async function get_current_ip() {
+async function get_current_ip(): Promise<string> {
   const res = await axios.get("https://api.ipify.org?format=text", {
     httpAgent: agent,
     httpsAgent: agent,
