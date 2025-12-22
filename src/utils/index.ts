@@ -1,13 +1,13 @@
 import axios from "axios";
 import { SocksProxyAgent } from "socks-proxy-agent";
 import net from "net";
-import {appendFile} from "fs/promises"
+import { appendFile } from "fs/promises";
 const jumia = {
   product: "article.prd",
   search_url: "https://www.jumia.ma/catalog/?",
-  search_prefix: "q=",
-  page_prefix: "page=",
-  last_page_label: `aria-label="Dernière page"`,
+  search_prefix: "q",
+  page_prefix: "page",
+  last_page_label: `[aria-label="Dernière page"]`,
   product_link: "a.core",
   product_url: "a.core",
   product_name: "h3.name",
@@ -63,22 +63,40 @@ const logger = (
 };
 
 const log_file_path = "./logs/request.log";
-const agent = new SocksProxyAgent("socks5h://127.0.0.1:9050");
-async function fetch_page(url: string) {
-  const res = await axios.get(url, {
-    httpAgent: agent,
-    httpsAgent: agent,
-    headers: {
-      "User-Agent": `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36`,
-      origin: "https://jumia.ma",
-      referer: "https://jumia.ma/",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Accept-Language": "en-US,en;q=0.9",
-      "Cache-Control": "no-cache",
-      Connection: "keep-alive",
-    },
-  });
-  return await res.data;
+// disabling proxy for now
+// const agent = new SocksProxyAgent("socks5h://127.0.0.1:9050");
+async function fetch_page(url: string): Promise<string | null> {
+  try {
+    const res = await axios.get(url, {
+      // httpAgent: agent,
+      // httpsAgent: agent,
+      headers: {
+        "User-Agent": `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36`,
+        origin: "https://jumia.ma",
+        referer: "https://jumia.ma/",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      },
+    });
+    return await res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      await write_log(
+        `${new Date().toISOString()} - [ERROR] - Axios error while fetching ${url}: ${
+          error.message
+        }\n`
+      );
+      return null;
+    }
+    await write_log(
+      `${new Date().toISOString()} - [ERROR] - Unknown error while fetching ${url}: ${
+        (error as Error).message
+      }\n`
+    );
+    return null;
+  }
 }
 
 function send_control(cmd: string) {
@@ -99,8 +117,8 @@ async function new_identity(password: string) {
 
 async function get_current_ip(): Promise<string> {
   const res = await axios.get("https://api.ipify.org?format=text", {
-    httpAgent: agent,
-    httpsAgent: agent,
+    // httpAgent: agent,
+    // httpsAgent: agent,
   });
   return res.data;
 }
@@ -117,4 +135,14 @@ async function write_log(content: string) {
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-export { jumia, logger, ansi_escape_codes, fetch_page, new_identity, sleep, log_ip_change, get_current_ip, write_log };
+export {
+  jumia,
+  logger,
+  ansi_escape_codes,
+  fetch_page,
+  new_identity,
+  sleep,
+  log_ip_change,
+  get_current_ip,
+  write_log,
+};

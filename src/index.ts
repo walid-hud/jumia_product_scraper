@@ -1,8 +1,9 @@
 import { error, log } from "node:console"
-import {get_current_ip , write_log} from "./utils/index.ts"
+import {get_current_ip , new_identity, write_log , } from "./utils/index.ts"
 import server from "./server.ts"
 server.listen(3000 , (e)=>{
     e ? error(e) : log("server at http://localhost:3000")
+    new_identity("jumia").then(()=>{})
     get_current_ip()
     .then(ip=>
     {
@@ -11,5 +12,7 @@ server.listen(3000 , (e)=>{
     })
     .then((ip)=>
         write_log(`${new Date().toISOString()} - [SERVER] - IP: ${ip}\n`)
-    )
+    ).then((()=>{
+
+    }))
 })
