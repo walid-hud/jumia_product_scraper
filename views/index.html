@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>web scraper from jumia</title>
-    <link rel="stylesheet" href="index.css">
-    <script src="./index.js" defer type="module"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>zen jumia</title>
+  <meta name="description" content="a calmer less bloated way to browse jumia">
+  <link rel="stylesheet" href="./src/style.css">
 </head>
+
 <body>
-    
+  <main>
+    <header>
+      <nav>
+        <div class="logo">
+          <p class="zen">zen</p>
+          <p class="app">[jumia]</p>
+        </div>
+        <section class="search-section">
+          <form id="search-form">
+            <input type="text" id="search-input" placeholder="Search for products..." required>
+          </form>
+        </section>
+      </nav>
+    </header>
+
+    <section class="results-section">
+      <div class="results-container">
+       
+      </div>
+    </section>
+  </main>
+  <script src="./src/index.ts" type="module"></script>
 </body>
+
 </html>

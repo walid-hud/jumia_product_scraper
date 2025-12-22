@@ -7,14 +7,10 @@ async function Handler(req:Request , res:Response , next:NextFunction){
     const products = await get_products_data(query , page)
     if(products.products && products.products.length > 0){
         res.json({products})
+        return;
     }else{
         res.status(404).json({error: "no product found"})
     }
-    res.status(400).json({error:"invalid request"})   
     next()
 }
 export default Handler
-
-function get_products_data_recursive(query : string, start_page = 1 , end_page:number){
-
-}
