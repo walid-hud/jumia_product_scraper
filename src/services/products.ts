@@ -17,8 +17,7 @@ const get_products_data = async (query: string , page_number : number): Promise<
   url.searchParams.set(jumia.page_prefix , String(page_number))
   log(url.toString())
   const page = await fetch_page(
-    // url.toString()
-    "http://localhost:3000/test_page.html"
+    url.toString()
   );
   if(!page)return products;
   const $ = cheerio.load(page);
