@@ -37,13 +37,11 @@ time_line.add(animate_form()).add(show_results_container()).pause();
 
 
 // data logic
-const get_mock_data =  () : Product[] => {
+const get_mock_data = async () : Promise<Product[]> => {
     const data = JSON.parse(json) as Products;
-    console.log(
-      data
-    );
     
-    // await sleep(4000)
+    
+    await sleep(10000)
     return data.products.products
 };
 
@@ -55,8 +53,7 @@ const submit_handler = (e: Event) => {
     e.preventDefault();
     time_line.play();
     input.blur();
-    const data = get_mock_data();
-    update_product_container(data)
+    // const data = get_mock_data().then(update_product_container)
 };
 
 form.addEventListener("submit" , submit_handler);
