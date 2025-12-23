@@ -45,8 +45,18 @@
       </div>
     </section>
   </main>
-  <script src="./src/animations.ts" type="module"></script>
+  <div id="global-modal" class="modal hidden ">
+    <div id="modal-box">
+      <h2 id="modal-title"> <span class="modal-icon"></span></h2>
+      <p id="modal-message"> </p>
+      <div id="modal-actions">
+        <button id="modal-confirm">continue</button>
+      <button id="modal-reload">reload</button>
+      </div>
+    </div>
+  </div>
   <script src="./src/index.ts" type="module"></script>
+  <script src="./src/utils.ts" type="module"></script>
 </body>
 
 </html>

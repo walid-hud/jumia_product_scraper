@@ -1,12 +1,13 @@
 import gsap from "gsap";
 import type { Products, Product } from "./types";
-import json from "./data";
+import {hideModal,showModal , start_scroll_objerver,type modal_options} from "./utils"
 type State = { products: Product[]; current_page: number, last_page?:number };
 const state: State = {
     products: [],
-    current_page: 1,
+    current_page: 0,
 };
 const base_url = "http://localhost:3000/products";
+let fetch_observer = false;
 // render logic
 const $ = <T extends Element>(selector: string) =>
     document.querySelector<T>(selector);
@@ -50,18 +51,19 @@ function show_results_container() {
 }
 time_line.add(animate_form()).add(show_results_container()).pause();
 
+function clear_screen(){
+    results_container.querySelectorAll("div").forEach(e=>e.remove())
+}
+
 // data logic
-// const get_mock_data = async (): Promise<Product[]> => {
-//     const data = JSON.parse(json) as Products;
-//     await sleep(10000);
-//     return data.products.products;
-// };
+
 
 
 function sleep(ms: number) {
     return new Promise((res) => {
         setTimeout(res, ms);
     });
+
 }
 
 const submit_handler = async (e: Event) => {
@@ -69,16 +71,28 @@ const submit_handler = async (e: Event) => {
     time_line.play();
     input.blur();
     input.disabled = true;
+    if(!fetch_observer){
+        start_scroll_objerver(fetch_on_scroll , results_container.parentElement!)
+        fetch_observer = true
+    }
     show_skeleton()
     const data = await fetch_products(input.value) as any
     if(data.products){
       const {products} = data as Products
+      console.table(
+        products
+      );
+    
       state.current_page = products.current_page
       state.last_page = products.last_page
       update_product_container(products.products)
     }else if(data.type){
       const error = data as fetch_error
-      alert(error.type + error.message )
+      if(error.type = "request"){
+      showModal({kind:"warning" , message:error.message , title:error.type+" error"}) //hack because i'm lazy
+      }else{
+      showModal({kind:"error" , message:error.message , title:error.type+" error"})
+      }
     }
     remove_skeleton()
     input.disabled = false
@@ -94,7 +108,7 @@ async function fetch_products(qeury: string): Promise<Products | fetch_error> {
     try {
         const url = new URL(base_url)
         url.searchParams.set("query" , qeury)
-        url.searchParams.set("page" , state.current_page.toString())
+        url.searchParams.set("page" , String(state.current_page+1))
         const res = await fetch(url);
         if (res.status === 400) {
             return { type: "request", message: "invalid search" };
@@ -110,11 +124,30 @@ async function fetch_products(qeury: string): Promise<Products | fetch_error> {
         }
         const data = await res.json();
         return data as Products;
-        
+
     } catch (error) {
         console.error(error);
         return { type: "unknown", message: "something went wrong" };
     }
+}
+
+async function fetch_on_scroll(){
+    const data = await fetch_products(input.value) as any
+    if(data.products){
+      const {products} = data as Products
+      state.current_page = products.current_page
+      state.last_page = products.last_page
+      update_product_container(products.products)
+    }else if(data.type){
+      const error = data as fetch_error
+      if(error.type = "request"){
+      showModal({kind:"warning" , message:error.message , title:error.type+" error"}) 
+      }else{
+      showModal({kind:"error" , message:error.message , title:error.type+" error"})
+      }
+    }
+    remove_skeleton()
+    input.disabled = false
 }
 
 function generate_product_card({
@@ -158,4 +191,5 @@ function update_product_container(products: Product[]) {
     products
         .map(generate_product_card)
         .map((e) => results_container.appendChild(e));
+
 }
