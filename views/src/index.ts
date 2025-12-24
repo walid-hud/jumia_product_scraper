@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import type { Products, Product } from "./types";
-import {hideModal,showModal , start_scroll_objerver,type modal_options} from "./utils"
+import {hideModal,showModal,start_scroll_observer,type modal_options} from "./utils"
 type State = { products: Product[]; current_page: number, last_page?:number };
 const state: State = {
     products: [],
@@ -15,7 +15,7 @@ const form = $<HTMLFormElement>("form")!;
 const input = $<HTMLInputElement>("input")!;
 const results_container = $<HTMLElement>(".results-container")!;
 const skeleton_template = $<HTMLTemplateElement>(".skeleton-template")!;
-
+const results_container_end = $<HTMLElement>("#results-section-end")!;
 // UI logic
 const time_line = gsap.timeline();
 function animate_form() {
@@ -51,10 +51,16 @@ function show_results_container() {
 }
 time_line.add(animate_form()).add(show_results_container()).pause();
 
-function clear_screen(){
-    results_container.querySelectorAll("div").forEach(e=>e.remove())
+async function clear_screen(){
+    results_container.querySelectorAll(".product-card").forEach(e=>{
+        console.warn(e.className);
+        e.remove()
+})
+    await sleep(1000)
+    return
 }
 
+const observer =  start_scroll_observer(fetch_on_scroll)
 // data logic
 
 
@@ -67,22 +73,18 @@ function sleep(ms: number) {
 }
 
 const submit_handler = async (e: Event) => {
+    window.scrollTo({behavior:"smooth" , top:0})
     e.preventDefault();
+    observer.unobserve(results_container_end)
     time_line.play();
     input.blur();
     input.disabled = true;
-    if(!fetch_observer){
-        start_scroll_objerver(fetch_on_scroll , results_container.parentElement!)
-        fetch_observer = true
-    }
+    await clear_screen()
     show_skeleton()
+    state.current_page=0
     const data = await fetch_products(input.value) as any
     if(data.products){
       const {products} = data as Products
-      console.table(
-        products
-      );
-    
       state.current_page = products.current_page
       state.last_page = products.last_page
       update_product_container(products.products)
@@ -96,6 +98,7 @@ const submit_handler = async (e: Event) => {
     }
     remove_skeleton()
     input.disabled = false
+    observer.observe(results_container_end)
   };
 
 form.addEventListener("submit", submit_handler);

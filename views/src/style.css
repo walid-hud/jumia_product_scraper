@@ -182,6 +182,8 @@ input::placeholder {
   border-right: 1px solid var(--border);
   border-left: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  height: fit-content;
+  min-height: 100vh;
 }
 
 .results-container::before {
