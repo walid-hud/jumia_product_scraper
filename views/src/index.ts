@@ -56,7 +56,6 @@ async function clear_screen(){
         console.warn(e.className);
         e.remove()
 })
-    await sleep(1000)
     return
 }
 
@@ -130,7 +129,7 @@ async function fetch_products(qeury: string): Promise<Products | fetch_error> {
 
     } catch (error) {
         console.error(error);
-        return { type: "unknown", message: "something went wrong" };
+        return { type: "unknown", message: "server not responding " };
     }
 }
 
