@@ -1,7 +1,7 @@
 import {appendFile , writeFile} from "fs/promises"
 import { join } from "path";
-import { color_text} from "../../shared/utils/colors.js";
-import type {RequestHandler , NextFunction , Request , Response} from "express"
+import { color_text} from "../../shared/utils/colors.ts";
+import type {RequestHandler } from "express"
 
 // this shit screams "You Ain't Gonna Need It" 💀
 
@@ -41,9 +41,9 @@ export async function log(level: log_lvl, message: string) {
   await log_file_exists();
   const formattedMessage = format_log_msg(level, message);
   console.log(formattedMessage);
-  await appendFile(log_file_path, formattedMessage + "\n");
+  await appendFile(log_file_path,`[${level}] ${message} \n`);
 }
 export const request_logger : RequestHandler = async (req,_,next)=>{
-    await log("debug" , `(GET) => ${req.url}`)
+    log("debug" , "(GET)=>"+req.url)
     next()
 }
