@@ -1,7 +1,7 @@
 type API_RESPONSE<T> = {
     success:boolean,
     data?:T,
-    error?:string
+    error?:APP_ERROR
 }
 type APP_ERROR = {
     status:number,
@@ -16,9 +16,8 @@ type JUMIA_PRODUCT = {
   brand: string | undefined;
   category: string | undefined;
 }
-type API_REQUEST_PARAMS = {
+type API_REQUEST_QUERY = {
     query: string;
     page: number ;
 }
-
- 
+export type {API_RESPONSE , APP_ERROR, JUMIA_PRODUCT , API_REQUEST_QUERY} 

@@ -12,6 +12,11 @@ server.get("/", (_, res) => {
     res.sendFile(path.join(process.cwd(), "client/dist/index.html"));
 });
 
+server.get("*", (_, res) => {
+    res.sendFile(path.join(process.cwd(), "client/dist/index.html"));
+});
+
+
 server.listen(PORT, (e) => {
     if(e){
         log("error", `Error starting server: ${e}`);
