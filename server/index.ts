@@ -4,17 +4,16 @@ import express , {static as _static , }  from "express";
 import { log ,request_logger } from "./service/logger.ts";
 const PORT = process.env.PORT || 3000;
 const server = express();
+import product_controller from "./controller/products.ts"
 server.use(_static(path.join(process.cwd(), "./client/dist")));
 server.use(cors())
 server.use(request_logger)
+server.use(product_controller)
 
 server.get("/", (_, res) => {
     res.sendFile(path.join(process.cwd(), "client/dist/index.html"));
 });
 
-server.get("*", (_, res) => {
-    res.sendFile(path.join(process.cwd(), "client/dist/index.html"));
-});
 
 
 server.listen(PORT, (e) => {

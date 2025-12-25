@@ -1,5 +1,5 @@
 import axios, { AxiosError, type AxiosRequestConfig , isAxiosError } from "axios";
-import type { API_RESPONSE } from "@shared/types.ts";
+import type { API_RESPONSE } from "../types.ts";
 
 const fetch_page = async (
     url: string,
@@ -7,19 +7,19 @@ const fetch_page = async (
 ): Promise<API_RESPONSE<string>> => {
     let result: API_RESPONSE<string> = { success: false };
     try {
-        const response = await axios.get<string>(url, {
+        const response = await axios.get<string>(url , {
             ...config,
             timeout: 10_000,
             validateStatus: () => true,
         });
+
         if (
             response.status < 200 ||
             response.status >= 300 ||
-            typeof response.data !== "string" ||
-            response.headers["Content-Type"] !== "text/html"
+            typeof response.data !== "string" 
         ) {
             result.error = {
-                message: "target site did'nt respond",
+                message: "target site didn't respond",
                 status: response.status,
                 type: "SERVICE",
             };

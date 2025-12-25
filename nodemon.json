@@ -1,5 +1,6 @@
 {
     "watch": ["server/", "client/"],
     "ext": "ts,js,json,html,css",
-    "exec": "ts-node ./server/index.ts"
+    "exec": "ts-node -r tsconfig-paths/register ./server/index.ts"
+
 }

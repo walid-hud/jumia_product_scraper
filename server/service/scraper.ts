@@ -1,10 +1,10 @@
-import type { APP_ERROR, JUMIA_PRODUCT } from "@shared/types.ts";
+import type { APP_ERROR, JUMIA_PRODUCT } from "../../shared/types.ts";
 import * as cheerio from "cheerio";
 import { log } from "./logger.ts";
-import { fetch_page } from "@shared/utils/fetch.ts";
+import { fetch_page } from "../../shared/utils/fetch.ts";
 class JUMIA {
     constructor() {}
-    base_url = "https://www.this.ma/catalog";
+    base_url = "https://www.jumia.ma/catalog/";
     search_page = new URL(this.base_url);
     product = "article.prd";
     search_prefix = "q";
@@ -22,15 +22,15 @@ class JUMIA {
         query: string,
         page: number = 1
     ): Promise<JUMIA_PRODUCT[] | APP_ERROR> {
-        const url = structuredClone(this.search_page);
+        const url = new URL(this.search_page);
         url.searchParams.set(this.search_prefix, query);
         url.searchParams.set(this.page_prefix, page.toString());
         await log("debug", "[FETCH] " + url.toString());
         const response = await fetch_page(url.toString(), {
             headers: {
                 "User-Agent": `Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.52 Safari/537.36`,
-                origin: "https://jumia.ma",
-                referer: "https://jumia.ma/",
+                origin: "https://www.jumia.ma",
+                referer: "https://www.jumia.ma/",
                 "Accept-Encoding": "gzip, deflate, br",
                 "Accept-Language": "en-US,en;q=0.9",
                 "Cache-Control": "no-cache",
@@ -66,3 +66,5 @@ class JUMIA {
         return products
     }
 }
+
+export {JUMIA}
