@@ -2,8 +2,15 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist",
+
+    "baseUrl": ".", 
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@server/*": ["server/*"],
+      "@client*": ["client/*"]
+    },
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -42,6 +49,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["./server/**/*.ts" , "./shared/**/*.ts"],
+  "exclude": ["node_modules" , "client" ,"objects"]
 }
