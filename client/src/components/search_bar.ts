@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import $ from "../utils/selector";
-const input = $<HTMLInputElement>("search-input")
+const input = $<HTMLInputElement>("#search-input")
 const form = $<HTMLFormElement>("form");
 
 const search = {

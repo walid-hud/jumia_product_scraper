@@ -4,14 +4,21 @@ import { show_container ,results_container } from "./components/results_containe
 import { state,subscribe } from "./context"
 
 subscribe("loading" , ()=>{
-    if(state.loading) render_skeletons(results_container)
+    state.loading ? render_skeletons(results_container) : remove_skeletons(results_container)
 })
+
+const sleep = (ms:number)=>{
+    return new Promise((r)=>setTimeout(r,ms))
+}
 
 async function submit_handler(ev:SubmitEvent){
     ev.preventDefault()
+    search.disable()
     search.animate(show_container)
     state.loading = true
-    
+    await sleep(4000)
+    state.loading = false
+    search.enable()
 }
 
 search.on_submit(submit_handler)
