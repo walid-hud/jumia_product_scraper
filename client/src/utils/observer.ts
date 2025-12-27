@@ -1,5 +1,5 @@
 const start_observer = (
-    on_observed: <T>() => void|Promise<T>,
+    on_observed: () => Promise<void>,
     config: IntersectionObserverInit
 ): IntersectionObserver => {
     const observer = new IntersectionObserver((entries) => {

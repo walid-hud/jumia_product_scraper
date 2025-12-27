@@ -2,14 +2,16 @@ import type {JUMIA_PRODUCT} from "@shared/types"
 type State = {
     current_page:number,
     loading:boolean,
-    products:JUMIA_PRODUCT[]
+    products:JUMIA_PRODUCT[],
+    query:string
 }
 type Subscriber = ()=>void
 
 const initial_state :State = {
     loading:false,
     products:[],
-    current_page:1
+    current_page:1,
+    query:""
 }
 
 const create_store = <T extends object>(initial:T)=>{

@@ -3,6 +3,7 @@ import { render_skeletons, remove_skeletons } from "./components/skeleton";
 import {
     show_container,
     results_container,
+    clear
 } from "./components/results_container";
 import { state, subscribe } from "./context";
 import "./utils/scroll_index";
@@ -10,6 +11,9 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { fetch_products } from "./services/api";
 import type { JUMIA_PRODUCT } from "@shared/types";
+import { start_observer } from "./utils/observer";
+import $ from "./utils/selector";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,8 +28,14 @@ const sleep = (ms: number) => {
     return new Promise((r) => setTimeout(r, ms));
 };
 
+const observer = start_observer(load_on_scroll , {threshold:1.0});
+const results_container_end = $("#results-container-end")
 async function submit_handler(ev: SubmitEvent) {
+    observer.unobserve(results_container_end);
+    observer.observe(results_container_end);
     ev.preventDefault();
+    state.query = search.get_value();
+    clear()
     search.animate(show_container);
     state.loading = true;
     search.disable();
@@ -39,11 +49,20 @@ async function submit_handler(ev: SubmitEvent) {
             scrub: 0.5,
         },
     });
-    const query = search.get_value();
-    const data = await fetch_products(query);
+    const data = await fetch_products(state.query);
     console.log(data)
     state.loading = false;
-    state.products = [...state.products, ...data.data as JUMIA_PRODUCT[]];    
+    state.products = [...data.data as JUMIA_PRODUCT[]];    
+    search.enable();
+}
+async function load_on_scroll(){
+    if(state.loading) return;
+    state.loading = true;
+    search.disable();
+    const data = await fetch_products(state.query , state.current_page++);
+    state.loading = false;
+    state.products = [...state.products,...data.data as JUMIA_PRODUCT[]]; 
+    ScrollTrigger.refresh(); // to refresh scrollTrigger after appending new products
     search.enable();
 }
 

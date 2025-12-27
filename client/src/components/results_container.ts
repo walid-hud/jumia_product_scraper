@@ -12,12 +12,15 @@ function show_container(on_complete?:()=>void) {
     });
 }
 function render(){
-    if(state.products.length === 0) {return;}
     state.products.map((prd) => {
         results_container.append(generate_product_card(prd));
     });
 }
 
+function clear(){
+    results_container.innerHTML=""
+}
+
 subscribe("products", render)
 
-export {results_container,show_container}
+export {results_container,show_container, clear}
