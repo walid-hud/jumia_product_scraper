@@ -4,6 +4,9 @@ const input = $<HTMLInputElement>("#search-input")
 const form = $<HTMLFormElement>("form");
 
 const search = {
+    get_value():string{
+        return input.value.trim()
+    },
     disable():void{
         input.blur()
         input.disabled = true

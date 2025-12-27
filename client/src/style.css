@@ -63,7 +63,7 @@
 
 body {
   background-color: var(--background);
-  height: 100dvh;
+  min-width: 100dvh;
 }
 
 body::-webkit-scrollbar {
@@ -80,7 +80,6 @@ header {
   backdrop-filter: blur(16px);
   background-color: rgba(18, 18, 18, 0.8);
   z-index: 9999;
-  border-radius: 10px;
   padding: 0.5rem;
 }
 
@@ -503,3 +502,12 @@ a {
   display: none !important;
 }
 
+
+.scroll-indicator{
+  position: absolute;
+  height: 2px;
+  width: 0%;
+  bottom: 0;
+  left: 0;
+  background:var(--chart-2)
+}

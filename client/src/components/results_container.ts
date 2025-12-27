@@ -1,8 +1,8 @@
+import { subscribe , state} from "../context/index";
 import $ from "../utils/selector";
 import gsap from "gsap";
-import { state, subscribe } from "../context/index";
-import generate_product_card from "./product_card";
 const results_container = $<HTMLElement>(".results-container");
+import generate_product_card from "../components/product_card";
 function show_container(on_complete?:()=>void) {
     gsap.to(results_container, {
         opacity: 1,
@@ -11,14 +11,13 @@ function show_container(on_complete?:()=>void) {
         onComplete:on_complete
     });
 }
-subscribe("products" ,render)
 function render(){
-    if(state.products.length===0){
-        // add a products or 404 screen later
-        return
-    }
-    state.products.map(prd => {
-        results_container.append(generate_product_card(prd))
-    })
+    if(state.products.length === 0) {return;}
+    state.products.map((prd) => {
+        results_container.append(generate_product_card(prd));
+    });
 }
+
+subscribe("products", render)
+
 export {results_container,show_container}
