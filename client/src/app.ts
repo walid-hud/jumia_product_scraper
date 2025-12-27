@@ -1,10 +1,14 @@
 import search from "./components/search_bar";
 import { render_skeletons, remove_skeletons } from "./components/skeleton";
-import {clear_section,insert_section,swap_section} from "./components/results_section"
+import {
+    clear_section,
+    insert_section,
+    swap_section,
+} from "./components/results_section";
 import {
     show_container,
     results_container,
-    clear_container
+    clear_container,
 } from "./components/results_container";
 import { state, subscribe } from "./context";
 import "./utils/scroll_index";
@@ -16,31 +20,30 @@ import { start_observer } from "./utils/observer";
 import $ from "./utils/selector";
 import error_screen from "./components/error_screen";
 
-
 gsap.registerPlugin(ScrollTrigger);
 
-
-// subscribe("loading", () => {
-//     state.loading
-//         ? render_skeletons(results_container, 40)
-//         : remove_skeletons(results_container);
-// });
+subscribe("loading", () => {
+    state.loading
+        ? render_skeletons(results_container, 40)
+        : remove_skeletons(results_container);
+});
 
 const sleep = (ms: number) => {
     return new Promise((r) => setTimeout(r, ms));
 };
 
-const observer = start_observer(load_on_scroll , {threshold:1.0});
-const results_container_end = $("#results-container-end")
+const observer = start_observer(load_on_scroll);
+const results_container_end = $<HTMLElement>("#results-container-end");
 async function submit_handler(ev: SubmitEvent) {
     observer.unobserve(results_container_end);
     observer.observe(results_container_end);
     ev.preventDefault();
     state.query = search.get_value();
-    clear_container()
+    clear_container();
     search.animate(show_container);
     state.loading = true;
     search.disable();
+    ScrollTrigger.refresh();
     gsap.to(".scroll-indicator", {
         width: "100%",
         ease: "none",
@@ -51,32 +54,40 @@ async function submit_handler(ev: SubmitEvent) {
             scrub: 0.5,
         },
     });
-    const {success , data , error} = await fetch_products(state.query);
-    console.log(
-        success , data , error
-    );
-    
+    const { data, error } = await fetch_products(state.query);
     state.loading = false;
     search.enable();
-    if(error && error.status >= 500){
-        swap_section(error_screen(error))
-        return
+    if (error && error.status >= 500) {
+        swap_section(error_screen(error));
+        return;
+    } else if(error) {
+        swap_section(error_screen(error));
+        return;
     }
     else{
-        state.products = [...data as JUMIA_PRODUCT[]];
+        state.products = [...(data as JUMIA_PRODUCT[])];
     }
 }
-async function load_on_scroll(){
-    if(state.loading) return;
+async function load_on_scroll() {
+    if (state.loading) return;
     state.loading = true;
     search.disable();
-    const data = await fetch_products(state.query , state.current_page++);
-    state.loading = false;
-    state.products = [...state.products,...data.data as JUMIA_PRODUCT[]]; 
+    const { data, error } = await fetch_products(
+        state.query,
+        state.current_page++
+    );
+    state.loading = false
+    if (error && error.status === 404) {
+        results_container_end.style.opacity = "1"
+        observer.disconnect()
+    } else if(error) {
+        swap_section(error_screen(error));
+        return;
+    }else{
+        state.products = [...state.products, ...(data as JUMIA_PRODUCT[])];
+    }
     ScrollTrigger.refresh(); // to refresh scrollTrigger after appending new products
     search.enable();
 }
 
 search.on_submit(submit_handler);
-
-

@@ -1,6 +1,6 @@
 const start_observer = (
     on_observed: () => Promise<void>,
-    config: IntersectionObserverInit
+    config?: IntersectionObserverInit
 ): IntersectionObserver => {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(async (e)=>{

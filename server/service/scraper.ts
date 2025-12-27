@@ -49,7 +49,6 @@ class JUMIA {
             };
         }
         if($(this.product).length === 0){
-            console.log("404 atbi");
             return {
                 message: "no products found",
                 status: 404,

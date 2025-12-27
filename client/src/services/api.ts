@@ -79,9 +79,9 @@ async function fetch_products(
             return {
                 success: false,
                 error: {
-                    message: err.message,
-                    status: err.status ?? 404,
-                    type: "SERVICE",
+                    message: err.message==="Network Error" ? "network error, couldn't reach the server":err.message,
+                    status: err.status ?? 500,
+                    type: "SERVER",
                 },
             };
         } else {

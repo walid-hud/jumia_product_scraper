@@ -481,9 +481,10 @@ a {
 }
 
 #results-container-end{
-  padding: 0.5rem;
+  padding: 1rem;
+  font-size: large;
   display: flex;
   align-items: center;
   justify-content: center;
-  display: none;
+  opacity: 0;
 }
