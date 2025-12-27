@@ -48,6 +48,13 @@ class JUMIA {
                 type: "SERVICE",
             };
         }
+        if($("body").has(this.product)){
+            return {
+                message: "no products found",
+                status: 404,
+                type: "SERVICE",
+            };
+        }
         const products: JUMIA_PRODUCT[] = [];
         $(this.product).each((_, product) => {
             products.push({
