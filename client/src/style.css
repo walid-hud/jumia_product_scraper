@@ -402,63 +402,60 @@ a {
 }
 
 
-#global-modal {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  inset: 0;
-  z-index: 9999;
-  backdrop-filter: brightness(0.5) blur(5px);
-  font-family: var(--font-mono);
-  color: var(--foreground);
-  transition: all 300ms ease-in;
-}
 
-#modal-box {
+.error-screen{
+  display: flex;
+  align-items:center ;
+  justify-content: center;
+  padding: 2rem;
+}
+.error-container{
+  border-radius: var(--radius);
+  background:var(--card);
+  border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--card);
-  width: 450px;
-  margin-top: -2rem;
-  box-shadow: var(--shadow-lg);
-}
-
-#modal-title {
+  justify-content: center;
+  width: 430px;
+  p{
   font-family: var(--font-sans);
-  font-size: 2rem;
-  padding: 1rem 0.5rem;
-  border-bottom: 1px solid var(--border);
+  color: inherit;
+  }
+  .title{
+    color: color-mix(in srgb, red, var(--card) 20%) ;
+    display: flex;
+    padding: 1rem ;
+    font-size: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid   var(--border);
+  }
+  .status{
+    color: inherit;
+    background-color:  color-mix(in srgb, red, var(--card) 90%);
+    border-radius: 5px;
+    font-size: 1.2rem;
+    line-height: 0.9;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+  }
+  .message{
+    padding: 1rem;
+    color: var(--foreground);
+    font-size: 1.4rem;
+  }
+}
+
+.error-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.modal-icon {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  background-size: contain;
-}
-
-#modal-message {
-  padding: 2rem 0.5rem;
-}
-
-#modal-actions {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem;
-
+  margin: 1rem;
   button {
     border: 1px solid var(--border);
     border-radius: calc(var(--radius)/2);
     background: var(--popover);
     color: var(--popover-foreground);
-    padding: 0.5rem 0;
-    width: 100%;
+    padding: 0.5rem 1rem;
+    margin: auto;
     font-size: 1.2rem;
     font-family: var(--font-sans);
     cursor: pointer;
@@ -466,35 +463,6 @@ a {
 
   button:hover {
     background: var(--muted);
-  }
-
-}
-
-.modal-error {
-  #modal-box {
-    background-color: color-mix(in srgb, var(--card), red 5%);
-  }
-
-  #modal-title {
-    color: red;
-  }
-
-  .modal-icon {
-    background: url("/error.svg") no-repeat center;
-  }
-}
-
-.modal-warning {
-  #modal-box {
-    background-color: color-mix(in srgb, var(--card), yellow 5%);
-  }
-
-  #modal-title {
-    color: yellow;
-  }
-
-  .modal-icon {
-    background: url("/warning.svg") no-repeat center;
   }
 }
 
@@ -510,4 +478,12 @@ a {
   bottom: 0;
   left: 0;
   background:var(--chart-2)
+}
+
+#results-container-end{
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
 }

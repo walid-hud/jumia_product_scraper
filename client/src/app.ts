@@ -1,9 +1,10 @@
 import search from "./components/search_bar";
 import { render_skeletons, remove_skeletons } from "./components/skeleton";
+import {clear_section,insert_section,swap_section} from "./components/results_section"
 import {
     show_container,
     results_container,
-    clear
+    clear_container
 } from "./components/results_container";
 import { state, subscribe } from "./context";
 import "./utils/scroll_index";
@@ -13,16 +14,17 @@ import { fetch_products } from "./services/api";
 import type { JUMIA_PRODUCT } from "@shared/types";
 import { start_observer } from "./utils/observer";
 import $ from "./utils/selector";
+import error_screen from "./components/error_screen";
 
 
 gsap.registerPlugin(ScrollTrigger);
 
 
-subscribe("loading", () => {
-    state.loading
-        ? render_skeletons(results_container, 40)
-        : remove_skeletons(results_container);
-});
+// subscribe("loading", () => {
+//     state.loading
+//         ? render_skeletons(results_container, 40)
+//         : remove_skeletons(results_container);
+// });
 
 const sleep = (ms: number) => {
     return new Promise((r) => setTimeout(r, ms));
@@ -35,7 +37,7 @@ async function submit_handler(ev: SubmitEvent) {
     observer.observe(results_container_end);
     ev.preventDefault();
     state.query = search.get_value();
-    clear()
+    clear_container()
     search.animate(show_container);
     state.loading = true;
     search.disable();
@@ -49,11 +51,20 @@ async function submit_handler(ev: SubmitEvent) {
             scrub: 0.5,
         },
     });
-    const data = await fetch_products(state.query);
-    console.log(data)
+    const {success , data , error} = await fetch_products(state.query);
+    console.log(
+        success , data , error
+    );
+    
     state.loading = false;
-    state.products = [...data.data as JUMIA_PRODUCT[]];    
     search.enable();
+    if(error && error.status >= 500){
+        swap_section(error_screen(error))
+        return
+    }
+    else{
+        state.products = [...data as JUMIA_PRODUCT[]];
+    }
 }
 async function load_on_scroll(){
     if(state.loading) return;
@@ -67,3 +78,5 @@ async function load_on_scroll(){
 }
 
 search.on_submit(submit_handler);
+
+

@@ -17,10 +17,13 @@ function render(){
     });
 }
 
-function clear(){
+function clear_container(){
     results_container.innerHTML=""
+}
+function show_end(){
+    $<HTMLElement>("#results-container-end").style.display= "flex"
 }
 
 subscribe("products", render)
 
-export {results_container,show_container, clear}
+export {results_container,show_container, clear_container , show_end}

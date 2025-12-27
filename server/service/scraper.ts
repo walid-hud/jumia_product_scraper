@@ -48,7 +48,8 @@ class JUMIA {
                 type: "SERVICE",
             };
         }
-        if($("body").has(this.product)){
+        if($(this.product).length === 0){
+            console.log("404 atbi");
             return {
                 message: "no products found",
                 status: 404,
