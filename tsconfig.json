@@ -49,5 +49,5 @@
     "skipLibCheck": true,
   },
   "include": ["./server/**/*.ts" , "./shared/**/*.ts"],
-  "exclude": ["node_modules" , "client" ,"objects"]
+  "exclude": ["node_modules" , "client",]
 }

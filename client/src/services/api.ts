@@ -6,7 +6,6 @@ async function fetch_products(
     query: string,
     page: number = state.current_page
 ): Promise<API_RESPONSE<JUMIA_PRODUCT[] | null>> {
-    let products: JUMIA_PRODUCT[] = [];
     const url = new URL("http://localhost:3000/products");
     url.searchParams.set("query", query);
     url.searchParams.set("page", page.toString());
@@ -47,7 +46,6 @@ async function fetch_products(
         if (status === 200) {
             const result = response.data as API_RESPONSE<JUMIA_PRODUCT[] | null>;
             if (result.success && result.data) {
-                products = result.data; 
                 return {
                     success: true,
                     data: result.data,

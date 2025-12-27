@@ -1,8 +1,6 @@
 import search from "./components/search_bar";
 import { render_skeletons, remove_skeletons } from "./components/skeleton";
 import {
-    clear_section,
-    insert_section,
     swap_section,
 } from "./components/results_section";
 import {
@@ -28,9 +26,6 @@ subscribe("loading", () => {
         : remove_skeletons(results_container);
 });
 
-const sleep = (ms: number) => {
-    return new Promise((r) => setTimeout(r, ms));
-};
 
 const observer = start_observer(load_on_scroll);
 const results_container_end = $<HTMLElement>("#results-container-end");
@@ -66,7 +61,7 @@ async function submit_handler(ev: SubmitEvent) {
     }
     else{
         state.products = [...(data as JUMIA_PRODUCT[])];
-    }
+        }
 }
 async function load_on_scroll() {
     if (state.loading) return;

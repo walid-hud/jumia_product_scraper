@@ -11,6 +11,7 @@
       "@shared/*": ["../shared/*"],
       "@server/*": ["../server/*"],
     },
+    
 
 
     /* Bundler mode */
@@ -30,5 +31,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["./src"]
+  "include": ["./src/**/*"]
 }
