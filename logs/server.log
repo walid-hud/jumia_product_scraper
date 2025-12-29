@@ -1,0 +1,37 @@
+[debug] Server is running on http://localhost:3000 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/products?query=pc&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=1 
+[debug] (GET)=>/products?query=pc&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=1 
+[debug] (GET)=>/products?query=keyboard&page=2 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=keyboard&page=2 
+[debug] (GET)=>/products?query=keyboard&page=2 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=keyboard&page=2 
+[debug] (GET)=>/products?query=keyboard&page=3 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=keyboard&page=3 
+[debug] (GET)=>/products?query=keyboard&page=4 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=keyboard&page=4 
+[debug] Server is running on http://localhost:3000 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/products?query=pc&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=1 
+[debug] (GET)=>/products?query=pc&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=1 
+[debug] (GET)=>/products?query=pc&page=2 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=2 
+[debug] (GET)=>/products?query=pc+gamer&page=3 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc+gamer&page=3 
+[debug] (GET)=>/products?query=pc&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=pc&page=1 
+[debug] (GET)=>/products?query=cd&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=cd&page=1 
+[debug] Server is running on http://localhost:3000 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/favicon.ico 
+[debug] (GET)=>/products?query=cd&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=cd&page=1 
+[debug] (GET)=>/products?query=laptop&page=1 
+[debug] [FETCH] https://www.jumia.ma/catalog/?q=laptop&page=1 

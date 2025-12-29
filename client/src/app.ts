@@ -30,6 +30,7 @@ subscribe("loading", () => {
 const observer = start_observer(load_on_scroll);
 const results_container_end = $<HTMLElement>("#results-container-end");
 async function submit_handler(ev: SubmitEvent) {
+    window.scrollTo({top:0 ,behavior:"instant"})
     observer.unobserve(results_container_end);
     observer.observe(results_container_end);
     ev.preventDefault();
